@@ -2,7 +2,7 @@ def bunch_price(quantity: int, price: float) -> float:
     """
     Calculates the price for a bunch of fruit or a single kind.
 
-    >>> bunch_price(0, 0.0)
+    >>> bunch_price(0, 1.0)
     0.0
     >>> bunch_price(2, 5.0)
     10.0
@@ -14,6 +14,14 @@ def bunch_price(quantity: int, price: float) -> float:
     Traceback (most recent call last):
     ...
     AssertionError: invalid data type for price parameter
+    >>> bunch_price(-2, 5.0)
+    Traceback (most recent call last):
+    ...
+    AssertionError: quantity of fruits must be greater than or equal to zero
+    >>> bunch_price(2, 0.0)
+    Traceback (most recent call last):
+    ...
+    AssertionError: price of fruits must be greater than zero
     """
 
     #checking that arguments passed to function are of correct data type
@@ -26,7 +34,7 @@ def bunch_price(quantity: int, price: float) -> float:
     #checking that value for price is greater than zero
     assert price > 0, "price of fruits must be greater than zero"
 
-    #testing
+    #price of the bunch, given the number of fruits and unit price, not rounded to maximize dales
     return quantity * price
 
 
@@ -44,10 +52,11 @@ price_watermelon = 7.99
 total price for each type of fruit purchased, separated from total calculation
 for ease of reading (symmetry with getting input and constants above)
 so adding another fruit to the bunch involves adding one new line in each chunk
+ALSO added function to calculate the price (not necessarily more efficient, but reusable)
 '''
-total_price_apples = num_apples * price_apples
-total_price_peaches = num_peaches * price_peaches
-total_price_watermelon = num_watermelon * price_watermelon
+total_price_apples = bunch_price(num_apples, price_apples)
+total_price_peaches = bunch_price(num_peaches, price_peaches)
+total_price_watermelon = bunch_price(num_watermelon, price_watermelon)
 
 #total price for all fruits purchased, added rounding to avoid many position after decimal (limitations of computer)
 total_price = round(total_price_apples + total_price_peaches + total_price_watermelon, 2)
