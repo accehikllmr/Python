@@ -10,6 +10,3 @@ course_score = max(lab1_grade, lab2_grade) * 0.05 + assignment_grade * 0.2 + mid
 
 #output the course score to the user
 print(course_score)
-
-
-

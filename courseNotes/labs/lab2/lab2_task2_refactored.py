@@ -13,5 +13,5 @@ total_truck_wheels = num_trucks * 18
 # calculate the total number of wheels
 total_wheels = total_bicycle_wheels + total_tricycle_wheels + total_car_wheels + total_truck_wheels
 
-#output to screen
-print(total_wheels)
+#output to screen, added sentence to explain final output
+print(f"{num_bicycles} bicycles, {num_tricycles} tricycles, {num_cars} cars and {num_trucks} trucks have a total of {total_wheels} wheels.")

@@ -15,4 +15,4 @@ total_price = num_apples * price_apples + num_peaches * price_peaches + num_wate
 print(total_price)
 
 #in Pycharm, use the following instructions to run the code in the Python Console (or Shell)
-# exec(open('filepath').read())
+#exec(open('filepath').read())
