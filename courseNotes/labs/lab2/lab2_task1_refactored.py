@@ -26,6 +26,7 @@ def bunch_price(quantity: int, price: float) -> float:
     #checking that value for price is greater than zero
     assert price > 0, "price of fruits must be greater than zero"
 
+    #testing
     return quantity * price
 
 
