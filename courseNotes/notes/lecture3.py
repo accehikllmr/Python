@@ -50,3 +50,5 @@ print(a[::-1])      #does the same as above, but backwards, since the step is -1
 #to get an explanation of how a method works, use the help function
 help(str.capitalize)       #no need to print, since this function does so on its own
 #MANY PROBLEMS REQUIRE COMPARING CASES OF STRINGS, so casefold function is very useful
+
+#commentaire
