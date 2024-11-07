@@ -153,4 +153,4 @@ while user_input != 'Y' or user_input != 'N':
         print(":)\n")
         break
 
-#since the number of loops needed for this activity is not predefined, I am not sure it is possible to use a for loop
+#since the number of loops needed for this activity is not predefined, I am not sure that it's possible to use a for loop
