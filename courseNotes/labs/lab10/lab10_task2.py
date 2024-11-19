@@ -1,3 +1,4 @@
+import doctest
 from typing import List
 
 def contains_duplicates(nums: List[int]) -> bool:
@@ -12,17 +13,16 @@ def contains_duplicates(nums: List[int]) -> bool:
     True
     >>> contains_duplicates([0])
     False
-"""
+    """
     
-    s = {} # initialize an empty set
-    result = None # Note: None means the data has no type
-    
+    s = set() # initialize an empty set
+
+    # looping over all numbers in list
     for num in nums:
-    if not num in s:
-    result = True
-    continue
-    else:
-    result = False
-    s.append(num)
-        
-    return result
+        # add each number to the set, since duplicates will automatically be discarded
+        s.add(num)
+
+    # if lengths of set and list are not equal, then there are duplicates in the list which have been discarded by set
+    return len(s) != len(nums)
+
+doctest.testmod()
