@@ -243,7 +243,7 @@ def access_value(a_dictionary: dict, a_key: any) -> any:
 from typing import Dict, List, Set, Tuple
 
 # not sure why this is not working, but at least we can see the syntax
-def collection_parameter(the_dict: Dict[str: int], the_list: List[int], the_set: Set[int]) -> any: #, the_tuple: Tuple[int]) -> any:
+def collection_parameter(the_dict: Dict[str, int], the_list: List[int], the_set: Set[int]) -> any: #, the_tuple: Tuple[int]) -> any:
     """
     >>> collection_parameter({'a': 1, 'b': 2}, [1], {1}) #, (1,))
     {'a': 1, 'b': 2}
