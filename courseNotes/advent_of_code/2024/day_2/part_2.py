@@ -82,6 +82,24 @@ class Report:
 
         return self._gaps
 
+    def get_report(self) -> List[int]:
+        """
+
+        :return:
+        """
+
+        return self._report
+
+    def set_gaps(self, new_gaps: List[int]) -> List[int]:
+        """
+
+
+        """
+
+        self._gaps = new_gaps
+
+        return self._gaps
+
     def is_safe_report(self) -> bool:
         """
         Determines whether a report is safe or not, given criteria.
@@ -241,13 +259,138 @@ now can iterate through formatted reports and use class methods on them
 formatted_reports = (AllReports(format_file('input.txt')))
 all_reports = formatted_reports.create_reports()
 
+unsafe_reports = []
+
 for report in all_reports:
     # call method to calculate gaps, thus populating list of gaps for object
     report.calculate_gaps()
     # add safe reports to list of safe reports
     if report.is_safe_report():
         formatted_reports.add_safe_report(report)
+    else:
+        unsafe_reports.append(report)
+
+#print(formatted_reports.number_safe_reports())
+
+# instead of dealing with gaps (since they have positive and negative values) try dealing with the reports themselves
+# NO, SINCE ALL REPORTS ARE EVALUATED ACCORDING TO THEIR GAPS
+# CANNOT USE UNSAFE REPORT EVALUATION METHOD SINCE WHEN REMOVING GAP, REPORT IS NOT UPDATED
+# for ordered unsafe reports, there are two cases:
+# --- with no duplicate values, only removing the beginning or end value can make it safe
+# --- with duplicate values, only removing the duplicate value can make it safe
+# for unordered unsafe reports, there are two cases:
+# --- if gap occurs at extremity, remove problematic gap
+# --- otherwise, remove problematic gap and add new gap (removed gap + next gap)
+
+# iterate through unsafe reports
+count = 0
+new_gaps = []
+for u in unsafe_reports:
+    # condition for ordered reports
+    if u.get_report() == sorted(u.get_report()) or u.get_report() == sorted(u.get_report())[::-1]:
+        # check for has duplicate values in report
+        if u.get_gaps().count(0) != 0:
+            # removing at least one zero from gaps
+            new_gaps = u.get_gaps()
+            new_gaps.remove(0)
+        else:
+            # condition to check whether beginning or end should be truncated (not one of three acceptable values)
+            # no need to consider +/- since ordered, so all gaps have same sign
+            if abs(u.get_gaps()[0]) != 1 and abs(u.get_gaps()[0]) != 2 and abs(u.get_gaps()[0]) != 3:
+                # removing beginning of list
+                new_gaps = u.get_gaps()[1:]
+            # if beginning is fine, check end
+            else:
+                # removing end of list
+                new_gaps = u.get_gaps()[:-1]
+    # condition for unordered reports
+    else:
+        # condition for differentiating between most positive and mostly negative gaps
+        if sum(u.get_gaps()) > 0:
+            # condition to check beginning or end to truncate
+            if u.get_gaps()[0] != 1 and u.get_gaps()[0] != 2 and u.get_gaps()[0] != 3:
+                new_gaps = u.get_gaps()[1:]
+            elif u.get_gaps()[-1] != 1 and u.get_gaps()[-1] != 2 and u.get_gaps()[-1] != 3:
+                new_gaps = u.get_gaps()[:-1]
+            else:
+                for i in u.get_gaps():
+                    if i < 0:
+                        # copying list to not change one in product object
+                        new_gaps = u.get_gaps()
+                        index_i = new_gaps.index(i)
+                        # inserting new value in list, bad value + next value (new gap)
+                        new_gap = i + new_gaps[index_i + 1]
+                        new_gaps.insert(index_i, new_gap)
+                        new_gaps.remove(i)
+        else:
+            if u.get_gaps()[0] != -1 and u.get_gaps()[0] != -2 and u.get_gaps()[0] != -3:
+                new_gaps = u.get_gaps()[1:]
+            elif u.get_gaps()[-1] != -1 and u.get_gaps()[-1] != -2 and u.get_gaps()[-1] != -3:
+                new_gaps = u.get_gaps()[:-1]
+            else:
+                for i in u.get_gaps():
+                    if i > 0:
+                        # copying list to not change one in product object
+                        new_gaps = u.get_gaps()
+                        index_i = new_gaps.index(i)
+                        # inserting new value in list, bad value + next value (new gap)
+                        new_gap = i + new_gaps[index_i + 1]
+                        new_gaps.insert(index_i, new_gap)
+                        new_gaps.remove(i)
+    # check that new_gaps is safe before checking next report
+    string = ""
+    for m in new_gaps:
+        safe_gaps = {1, 2, 3}
+        for gap in new_gaps:
+            if abs(gap) not in safe_gaps:
+                string += '_'
+            else:
+                # assuming that positive sum implies all positive integers (which it does if all negatives are removed)
+                if sum(new_gaps) > 0 > m:
+                    string += '_'
+                # same but with negatives
+                elif sum(new_gaps) < 0 < m:
+                    string += '_'
+    if string == "":
+        count += 1
+
+print(formatted_reports.number_safe_reports() + count)
+
+
+    # condition for unordered reports
+
+'''
+n = 0
+
+for mehport in unsafe_reports:
+    # collect unsafe reports gaps
+    mehport.calculate_gaps()
+    # convert gaps into sets, to condense, and back into list
+    set_gaps = sorted(list(set(mehport.get_gaps())))
+    # determine whether ascending or descending
+    if set_gaps[0] > 0:
+        # removing last element (largest number) might make it safe
+        mehport.set_gaps(set_gaps[:-1])
+        if mehport.is_safe_report():
+            formatted_reports.add_safe_report(mehport)
+            n += 1
+    elif set_gaps[0] < 0:
+        # removing first element (smallest number) might make it safe
+        mehport.set_gaps(set_gaps[:1])
+        if mehport.is_safe_report():
+            formatted_reports.add_safe_report(mehport)
+            n += 1
+    else:
+        # list starting at 0, so removing it might make it safe
+        set_gaps.remove(0)
+        # evaluating again, now that single problem has been removed
+        if mehport.is_safe_report():
+            formatted_reports.add_safe_report(mehport)
+            n += 1
 
 print(formatted_reports.number_safe_reports())
+print(n)
 
 doctest.testmod()
+'''
+

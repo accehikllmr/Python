@@ -1,3 +1,5 @@
+import doctest
+
 def bunch_price(quantity: int, price: float) -> float:
     """
     Calculates the price for a bunch of fruit or a single kind.
@@ -25,8 +27,8 @@ def bunch_price(quantity: int, price: float) -> float:
     """
 
     #checking that arguments passed to function are of correct data type
-    assert type(quantity) == int, "invalid data type for quantity parameter"
-    assert type(price) == float, "invalid data type for price parameter"
+    assert isinstance(quantity, int), "invalid data type for quantity parameter"
+    assert isinstance(price, float), "invalid data type for price parameter"
 
     #checking that value for quantity is non-negative
     assert quantity >= 0, "quantity of fruits must be greater than or equal to zero"
@@ -37,32 +39,48 @@ def bunch_price(quantity: int, price: float) -> float:
     #price of the bunch, given the number of fruits and unit price, not rounded to maximize dales
     return quantity * price
 
+def add_to_total(all_prices: float, some_price: float) -> float:
+    """
+    Updating total price given a newly purchased bunch of fruit.
 
-#quantity for each type of fruit
-num_apples = int(input("How many apples? "))
-num_peaches = int(input("How many peaches? "))
-num_watermelon = int(input("How many watermelons? "))
+    Parameters:
+         all_prices (float): running total cost of all fruit bunches
+         some_price (float): cost of fruit bunch being added to total
 
-#price for each type of fruit
-price_apples = 2.94
-price_peaches = 3.99
-price_watermelon = 7.99
+    Returns:
+        (float): updated total cost of all fruit bunches
 
-'''
-total price for each type of fruit purchased, separated from total calculation
-for ease of reading (symmetry with getting input and constants above)
-so adding another fruit to the bunch involves adding one new line in each chunk
-ALSO added function to calculate the price (not necessarily more efficient, but reusable)
-'''
-total_price_apples = bunch_price(num_apples, price_apples)
-total_price_peaches = bunch_price(num_peaches, price_peaches)
-total_price_watermelon = bunch_price(num_watermelon, price_watermelon)
+    >>> add_to_total(5, 5)
+    10
+    >>> add_to_total(0, 0)
+    0
+    """
 
-#total price for all fruits purchased, added rounding to avoid many position after decimal (limitations of computer)
-total_price = round(total_price_apples + total_price_peaches + total_price_watermelon, 2)
+    # no assertions tests since already guaranteed valid input from previous function
+
+    return all_prices + some_price
+
+# associating fruit type with its price
+fruit_inventory = {'apple': 2.94, 'peach': 3.99, 'watermelon': 7.99}
+
+# instantiating string object for output to user
+output_message = f"\nFor "
+
+# instantiating float object for total price of all fruit bunches
+total_price = 0.0
+
+# iterate through every type of fruit in inventory
+for fruit in fruit_inventory.keys():
+    # get user input for quantity of each fruit
+    num_fruit = int(input(f"How many {fruit}s? "))
+    # calculate price for a bunch of fruit
+    price_fruit = bunch_price(num_fruit, fruit_inventory[fruit])
+    # adding to total price of fruit bunches
+    total_price = add_to_total(total_price, price_fruit)
+    # updating string with new value
+    output_message += f"{num_fruit} {fruit}, "
 
 #output the total price to the user, added sentence to explain result (error: when only one fruit, still plural)
-print(f"The total price for {num_apples} apples, {num_peaches} peaches and {num_watermelon} watermelon is ${total_price}.")
+print(output_message + f"the total cost is ${round(total_price,2)}.")
 
-#in Pycharm, use the following instructions to run the code in the Python Console (or Shell)
-#exec(open('filepath').read())
+doctest.testmod()
