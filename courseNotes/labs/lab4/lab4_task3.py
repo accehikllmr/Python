@@ -41,3 +41,5 @@ def count_wheels(num_bicycles: int, num_tricycles: int, num_cars: int, num_truck
     return num_bicycles * wheels_bicycle + num_tricycles * wheels_tricycle + num_cars * wheels_car + num_trucks * wheels_truck
 
 doctest.testmod()
+
+# again, lab2 activity turned into a function

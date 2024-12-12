@@ -50,3 +50,11 @@ def fruit_price(num_apples: int, num_peaches: int, num_watermelon: int) -> float
     return total_price
 
 doctest.testmod()
+
+'''
+essentially the same as refactored lab2_task1, but here everything is in a single function
+this fits with the grading approach of the lab software, where we do not write input statements into the function
+arguments are passed to the function by the lab software, so essentially, the function is being graded
+hence the reason for which there has never been a need to consider when it is best to check the validity of 
+arguments passed to the function
+'''

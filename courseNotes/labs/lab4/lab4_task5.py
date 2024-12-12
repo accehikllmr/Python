@@ -34,3 +34,5 @@ def xor_operator(expression_1: bool, expression_2: bool) -> bool:
     return not_both_true and not_both_false
 
 doctest.testmod()
+
+# another duplicate from lab 2

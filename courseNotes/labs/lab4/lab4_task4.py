@@ -41,3 +41,5 @@ def need_to_buy_ticket(age: float, height: float) -> bool:
     return age > 6 or height > 120
 
 doctest.testmod()
+
+# again, duplicate task from lab 2

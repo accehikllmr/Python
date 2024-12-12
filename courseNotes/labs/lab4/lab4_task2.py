@@ -39,3 +39,5 @@ def pound(expression: str) -> int:
     return result
 
 doctest.testmod()
+
+# same as lab2_task2, but inside of a function
