@@ -26,7 +26,6 @@ def remove_vowels(a_string: str) -> str:
     Traceback (most recent call last):
     ...
     AssertionError: argument passed to a_string parameter is not of string type
-
     >>> remove_vowels("'check out this string'")
     Traceback (most recent call last):
     ...
