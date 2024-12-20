@@ -10,15 +10,13 @@ ORANGE = "orange"
 
 def list_to_dict(input_list: List[int]) -> Dict[str, int]:
     """
-    Converts a list into a dictionary 
-    where the keys are the indices of the elements in the list.
+    Converts a list into a dictionary where the keys are the indices of the elements in the list.
     
     Parameters:
         input_list (list): The input list to be converted.
         
     Returns:
-        dict: A dictionary where keys are strs 
-        and values are elements from the list.
+        dict: A dictionary where keys are strs and values are elements from the list.
     
     >>> list_to_dict([10, 15, 20, 25])
     {'apple': 10, 'banana': 15, 'grape': 20, 'orange': 25}

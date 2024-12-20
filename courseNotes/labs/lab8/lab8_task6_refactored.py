@@ -135,5 +135,4 @@ class String:
 
         return no_vowel_string
 
-# comment to try and unblock github program, supposedly updating...
 doctest.testmod()
