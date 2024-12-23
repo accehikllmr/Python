@@ -11,7 +11,7 @@ def intersecting_chars(my_str: str) -> List[str]:
         my_str (str): strings of letters from the alphabet with two underscores separating three distinct substrings
 
     Returns:
-        (List): individual letters contained in all three distinct substrings
+        (List[str]): individual letters contained in all three distinct substrings
 
     >>> intersecting_chars("__")
     []
@@ -39,32 +39,48 @@ def intersecting_chars(my_str: str) -> List[str]:
     Traceback (most recent call last):
     ...
     AssertionError: argument passed to my_str parameter must have exactly two underscore characters
+    >>> intersecting_chars(2)
+    Traceback (most recent call last):
+    ...
+    AssertionError: argument passed to my_str parameter must be a string object
     """
+
+    assert isinstance(my_str, str), "argument passed to my_str parameter must be a string object"
+
     # checking that the argument passed to my_str parameter has exactly two underscore characters
     assert my_str.count('_') == 2, "argument passed to my_str parameter must have exactly two underscore characters"
 
-    # checking that all characters in string are letters from the alphabet, other than the underscores, or that is only contains underscores
+    # checking that all characters in string are letters from the alphabet, other than the underscores, or that is only contains underscores (i.e. no substrings)
     assert my_str.replace('_', "").isalpha() or my_str == "__", "argument passed to my_str parameter must only have underscores and letters from the alphabet"
 
-    # converting string characters to lowercase, splitting it using underscore as delimiter, and placing it into a list
+    # converting string characters to lowercase, splitting it using underscore as delimiter, and placing it into a list (character case irrelevant for intersection)
     strings = my_str.lower().split("_")
 
     # empty strings automatically return an empty list (no characters in common with empty string)
     if "" in strings:
         return []
     else:
-        # separating each string into its own set, containing one instance for each of its characters, in order to make intersection comparisons with set method
-        first_chars = set(strings[0])
-        second_chars = set(strings[1])
-        third_chars = set(strings[2])
-
-        # determine the intersection of the first two sets
-        first_intersection = first_chars.intersection(second_chars)
-
-        # determine the intersection of this first intersection and the third set
-        second_intersection = first_intersection.intersection(third_chars)
-
-        # return elements of the set, but in a sorted list
-        return sorted(list(second_intersection))
+        '''
+        rather than assigning different sets to variables, to simplify code, doing everything in one line
+        however, trying to write single line into many lines, in order to improve readability
+        unsure if proper styling has been achieved, trying to separate parentheses like blocks in C
+        '''
+        return (
+            sorted (
+                list (
+                    set (
+                        strings[0]
+                    ).intersection (
+                            set (
+                                strings[1]
+                            ).intersection (
+                                    set(
+                                        strings[2]
+                                    )
+                            )
+                    )
+                )
+            )
+        )
 
 doctest.testmod()
