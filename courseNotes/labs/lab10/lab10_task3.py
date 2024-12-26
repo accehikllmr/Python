@@ -40,7 +40,7 @@ def majority_element(nums: List[int]) -> List[int]:
         nums (List[int]): list of integers
 
     Returns:
-        (List[int]):   list of integers which appear most frequently in the list
+        (List[int]): list of integers which appear most frequently in the list
 
     >>> majority_element([2, 2, 2, 3, 1, 2, 2, 3, 3])
     [2]

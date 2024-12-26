@@ -63,7 +63,7 @@ def invert_dict(a_dict: Dict[str, int]) -> Dict[int, List[str]]:
     # checking correct types for keys and values in dictionary
     assert key_value_types(a_dict), "keys and values must be string and integer objects, respectively"
 
-    # initializing empty list, to store inverted dictionary keys, extracted from original dictionary
+    # initializing empty set, to store inverted dictionary keys, extracted from original dictionary
     key_set = set()
 
     for value in a_dict.values():

@@ -3,7 +3,13 @@ from typing import List
 
 def contains_duplicates(nums: List[int]) -> bool:
     """
-    returns whether there are duplicate elements in a given list
+    Returns whether there are duplicate elements in a given list of numbers.
+
+    Parameters:
+        nums (List[int]): list of numbers
+
+    Returns:
+        (bool): whether list of numbers contains duplicates
     
     >>> contains_duplicates([1, 2, 3, 4, 1])
     True
@@ -14,15 +20,11 @@ def contains_duplicates(nums: List[int]) -> bool:
     >>> contains_duplicates([0])
     False
     """
-    
-    s = set() # initialize an empty set
 
-    # looping over all numbers in list
-    for num in nums:
-        # add each number to the set, since duplicates will automatically be discarded
-        s.add(num)
+    # converts list to set, thus eliminating duplicate elements
+    set_nums = set(nums)
 
-    # if lengths of set and list are not equal, then there are duplicates in the list which have been discarded by set
-    return len(s) != len(nums)
+    # compares length of collections, if equal then nothing eliminated, hence no duplicates in set
+    return len(set_nums) != len(nums)
 
 doctest.testmod()
