@@ -35,7 +35,7 @@ def print_board(board: List[List[str]]) -> None:
 
     Parameters:
         board (List[List[str]]): list of length n with n nested lists containing board contents, spaces and pieces
-    
+
     >>> print_board([[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']])
     -------------
     |   |   |   |
@@ -58,10 +58,10 @@ def print_board(board: List[List[str]]) -> None:
     # loop to print left side of column delimiters
     for row in board:
         # need end argument, otherwise prints every delimiter on a separate line
-        print('|', end = '')
+        print('|', end='')
         # loop to print contents of cell (empty space or piece) and right column delimiter
         for cell in row:
-            print(f" {cell} |", end = "")
+            print(f" {cell} |", end="")
         # print horizontal row delimiter
         print('\n' + '-' * (4 * len(row) + 1))
 
@@ -107,7 +107,7 @@ def is_winner(board: List[List[str]], player: str) -> bool:
         player (str): current piece being placed on the board
 
     Returns:
-        (bool): whether or not a player has formed a winning connection on the board
+        (bool): whether a player has formed a winning connection on the board
 
     >>> is_winner([['O', 'O', ' '], [' ', ' ', ' '], ['X', 'X', 'X']], 'X')
     True
@@ -124,7 +124,7 @@ def is_winner(board: List[List[str]], player: str) -> bool:
     for row in board:
         # turning row into a set, to eliminate duplicated cell entries
         condensed_row = set(row)
-        # winning row will have unique cell entry that is winning piece (i.e. no spaces or opposing pieces)
+        # winning row will have unique cell entry that is winning piece (i.e. no spaces or opposing pieces), where player is the winning piece
         if len(condensed_row) == 1 and condensed_row == {player}:
             return True
 
@@ -147,7 +147,7 @@ def is_winner(board: List[List[str]], player: str) -> bool:
         if row_col == len(board) - 1:
             return True
 
-    # using variable to update column value, since iterates in the opposite direction as row
+    # using variable to update column value, since iterates in the opposite direction as row (reverse diagonal)
     col = len(board) - 1
     for row in range(len(board)):
         # row and column not synchronized like before, so need to adjust column value
@@ -168,7 +168,7 @@ def is_board_full(board: List[List[str]]) -> bool:
         board (List[List[str]]): current board with all pieces placed from previous turns, if any
 
     Returns:
-        (bool): whether or not game board is full of pieces, so no possible moves remaining
+        (bool): whether game board is full of pieces, so no possible moves remaining
 
     >>> is_board_full([['O', 'O', ' '], [' ', ' ', ' '], ['X', 'X', 'X']])
     False
@@ -179,31 +179,31 @@ def is_board_full(board: List[List[str]]) -> bool:
         # finding a single space implies an incomplete board
         if ' ' in row:
             return False
+
     return True
 
-# This function is provided, and you can leave it as is.
 def play_tic_tac_toe() -> None:
     """ Orchestrate the game, allowing two players to take turns."""
     print("Welcome to Tic-Tac-Toe!")
-    
+
     # Initialize the game board
     n = 0
     # getting answer from user until board size is at least 3
     while n < 3:
         try:
             n = int(input("What is the size of the board (minimum size is 3)? "))
-        # if user input is not a digit, ValueError is raised, so this is the specific type of exception to catch
+        # if user input is not a digit, ValueError is raised, so this is the specific type of exception to catch (so program does not halt)
         except ValueError:
             continue
 
     # argument passed to this function is validated above, so no need to validate within function
-    board = initialize_board(n)    
+    board = initialize_board(n)
 
-    # Define players according to their piece
+    # Define players according to their piece, no choice to be made so no validation needed
     pieces = ['X', 'O']
     # track which player is moving, or moves next
     current_player = 0
-    
+
     player_1_name = input("What is the name of player 1? ").strip()
     player_2_name = input("What is the name of player 2? ").strip()
     # default names given if user provides empty input
@@ -219,31 +219,29 @@ def play_tic_tac_toe() -> None:
     continue_game = True
 
     while continue_game:
-        # showing board, but updated after every player move
+        # showing board, but updated after every player move, no argument validation since validated in other functions
         print_board(board)
 
         # Get player input
         # As we are facing regular players, the row and col start 1 so that they don't get confused, below is string output to user
         row_col_examples = '/'.join([str(i + 1) for i in range(n)])
-        # taking user input for chosen cell to place their piece
-        row = input(f"Player {player_names[current_player]}, choose a row ({row_col_examples}): ").strip()
-        col = input(f"Player {player_names[current_player]}, choose a column ({row_col_examples}): ").strip()
+        # taking user input for chosen cell to place their piece, using empty strings to make disjunction true and trigger first loops
+        row = ""
+        col = ""
+        '''
+        continues asking user for input until receiving a number within the given range
+        first disjunct checks that string contains only digits (not converted yet so as to not trigger value error)
+        second disjunct checks that integer version of string, when converted, is within the given range
+        '''
+        while not row.isdigit() or (int(row) < 1 or int(row) > n):
+            row = input(f"Player {player_names[current_player]}, choose a row ({row_col_examples}): ").strip()
+        while not col.isdigit() or (int(col) < 1 or int(col) > n):
+            col = input(f"Player {player_names[current_player]}, choose a column ({row_col_examples}): ").strip()
 
-        # try block, to see whether user input is within range of 1, 2, 3, ..., n
-        try:
-            # adjusting indices for the computer (starts at 0, rather than 1)
-            row = int(row) - 1
-            col = int(col) - 1
-            # creates a string containing the range of possible values for user input, using list comprehension, adding 1 for user
-            item_range = ", ".join([str(i + 1) for i in range(n)])
-            # checking chosen cell indices against possible range
-            assert row in [i for i in range(n)] and col in [i for i in range(n)], f"row and col must be an int ranged from {item_range}"
-        # checking for raised ValueError, since input could be non digit characters
-        except ValueError:
-            # going all the way to n, since board can be larger than three
-            print("row and col must be an int ranged from 1, 2, 3, ..., n")
-            continue
-        
+        # user inputs have been validated, now convert to integer objects to place in matrix, and add one to correct indices
+        row = int(row) - 1
+        col = int(col) - 1
+
         # Drop the player's piece into the chosen cell, but conditional since function returns boolean, whether chosen cell is occupied
         if drop_piece(board, row, col, pieces[current_player]):
             # Check for a winner
@@ -260,9 +258,11 @@ def play_tic_tac_toe() -> None:
 
             # Switch to the other player, since current_player value is either 0 or 1
             current_player = 1 - current_player
+
         # failed conditional above, so cell is occupied
         else:
             print("Cell is already occupied. Choose another cell.")
+
 
 play_tic_tac_toe()
 
