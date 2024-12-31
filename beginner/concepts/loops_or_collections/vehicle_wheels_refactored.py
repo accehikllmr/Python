@@ -6,7 +6,7 @@ vehicles = {'bicycle': 2, 'tricycle': 3, 'car': 4, 'truck': 18}
 '''
 implementing these functions does not simplify the program, although it does make it more robust, protecting from
 invalid inputs and semantic errors (e.g. incorrect mathematical operations)
-though there are no explicit tests for the calculation of total wheels, there are for the intermediate calculations
+though there are no explicit tests for the calculation of total wheels, there are for the algorithms calculations
 '''
 def add_to_total(all_wheels: int, some_wheels: int) -> int:
     """
