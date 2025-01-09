@@ -52,3 +52,5 @@ def find_maximum(sequence: List[int]) -> int:
     return maximum_value
 
 doctest.testmod()
+
+# commentaire
